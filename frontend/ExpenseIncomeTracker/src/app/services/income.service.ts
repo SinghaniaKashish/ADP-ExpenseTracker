@@ -26,3 +26,5 @@ export class IncomeService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
+
+//
