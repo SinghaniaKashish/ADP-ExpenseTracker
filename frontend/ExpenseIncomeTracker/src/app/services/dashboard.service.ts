@@ -50,19 +50,3 @@ export class DashboardService {
 
 }
 
-//   getLifetimeSummary(userId: number): Observable<any> {
-//     return this.http.get<any>(`${this.apiUrl}/summary/lifetime?userId=${userId}`);
-//   }
-
-//   getExpenseSummaryByCategoryForMonth(userId: number, month: number, year: number): Observable<any> {
-//     return this.http.get<any>(`${this.apiUrl}/expenses/summary/month?userId=${userId}&month=${month}&year=${year}`);
-//   }
-
-//   getExpenseSummaryForYear(userId: number, year: number): Observable<any> {
-//     return this.http.get<any>(`${this.apiUrl}/expenses/summary/year?userId=${userId}&year=${year}`);
-//   }
-
-//   getAnonymizedExpenseSummaryByCategory(): Observable<any> {
-//     return this.http.get<any>(`${this.apiUrl}/expenses/anonymized-summary/category`);
-//   }
-// }

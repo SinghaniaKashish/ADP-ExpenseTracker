@@ -111,28 +111,6 @@ public class DashboardService {
         return summary;
     }
 
-
-
-    // Anonymized expense summary by category
-    public Map<String, Double> getAnonymizedExpenseSummaryByCategory() {
-        List<Object[]> results = expenseRepository.getAnonymizedExpenseSummaryByCategory();
-        Map<String, Double> summary = new HashMap<>();
-        for (Object[] result : results) {
-            summary.put((String) result[0], (Double) result[1]);
-        }
-        return summary;
-    }
-
-    // Anonymized income summary by category
-    public Map<String, Double> getAnonymizedIncomeSummaryByCategory() {
-        List<Object[]> results = incomeRepository.getAnonymizedIncomeSummaryByCategory();
-        Map<String, Double> summary = new HashMap<>();
-        for (Object[] result : results) {
-            summary.put((String) result[0], (Double) result[1]);
-        }
-        return summary;
-    }
-
     // Expense-to-income ratio for a user
     public double getExpenseToIncomeRatio(Long userId) {
         double totalExpenses = expenseRepository.findByUserId(userId).stream()

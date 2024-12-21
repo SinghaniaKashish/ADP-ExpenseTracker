@@ -4,7 +4,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { NavbarComponent } from "../../navbar/navbar.component";
 import { DashboardService } from '../../services/dashboard.service';
 import { ChartOptions, ChartType } from 'chart.js';
-import { CommonModule } from '@angular/common';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 
@@ -14,7 +13,7 @@ Chart.register(ChartDataLabels);
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SharedModule, NavbarComponent, CommonModule],
+  imports: [SharedModule, NavbarComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -55,20 +54,6 @@ export class DashboardComponent implements OnInit {
  incomeChartData: any = [];
  incomeChartLabels: string[] = [];
 
- // Chart options
-//  chartOptions: ChartOptions = {
-//    responsive: true,
-//    plugins: {
-//      legend: {
-//        position: 'top',
-//        labels: {
-//          font: {
-//            size: 14,
-//          },
-//        },
-//      },
-//    },
-//  };
 
 chartOptions: ChartOptions = {
   responsive: true,
@@ -171,7 +156,7 @@ chartOptions: ChartOptions = {
         this.router.navigate(['/login']);
       }
 
-      // Load expense summary data for the current month
+  // Load expense summary data for the current month
   loadExpenseChart(): void {
     this.dashboardService
       .getExpenseSummaryByCategoryForMonth(1, this.selectedMonth, this.selectedYear)

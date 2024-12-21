@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
 import { NgChartsModule } from 'ng2-charts';
+import { HttpClientModule } from '@angular/common/http';
+
 
 // @NgModule({
 //   declarations: [],
@@ -37,6 +39,7 @@ import { NgChartsModule } from 'ng2-charts';
     MatToolbarModule,
     MatTabsModule,
     NgChartsModule,
+    HttpClientModule,
 
   ],
   exports: [
@@ -52,7 +55,9 @@ import { NgChartsModule } from 'ng2-charts';
     MatFormFieldModule,
     MatToolbarModule,
     MatTabsModule,
-    NgChartsModule
+    NgChartsModule,
+    HttpClientModule,
+    CommonModule
 
   ],
 })
