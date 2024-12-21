@@ -5,6 +5,11 @@ import { NavbarComponent } from "../../navbar/navbar.component";
 import { DashboardService } from '../../services/dashboard.service';
 import { ChartOptions, ChartType } from 'chart.js';
 import { CommonModule } from '@angular/common';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart } from 'chart.js';
+
+Chart.register(ChartDataLabels);
+
 
 @Component({
   selector: 'app-dashboard',
@@ -51,19 +56,57 @@ export class DashboardComponent implements OnInit {
  incomeChartLabels: string[] = [];
 
  // Chart options
- chartOptions: ChartOptions = {
-   responsive: true,
-   plugins: {
-     legend: {
-       position: 'top',
-       labels: {
-         font: {
-           size: 14,
-         },
-       },
-     },
-   },
- };
+//  chartOptions: ChartOptions = {
+//    responsive: true,
+//    plugins: {
+//      legend: {
+//        position: 'top',
+//        labels: {
+//          font: {
+//            size: 14,
+//          },
+//        },
+//      },
+//    },
+//  };
+
+chartOptions: ChartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+      labels: {
+        font: {
+          size: 14,
+        },
+      },
+    },
+    tooltip: {
+      callbacks: {
+        label: (context) => {
+          const label = context.label || '';
+          const value = context.raw || 0;
+          return `${label}: ${value}`;
+        },
+      },
+    },
+    datalabels: {
+      anchor: 'end',
+      align: 'start',
+      color: '#000',
+      font: {
+        size: 12,
+        weight: 'bold',
+      },
+      formatter: (value, ctx) => {
+        const labels = ctx.chart?.data?.labels; // Safe navigation operator
+        const label = labels && labels[ctx.dataIndex] ? labels[ctx.dataIndex] : '';
+        return `${label}: ${value}`;
+      },
+      
+    },
+  },
+};
 
 
 
@@ -140,8 +183,15 @@ export class DashboardComponent implements OnInit {
               data: Object.values(data),
               backgroundColor: this.generateRandomColors(Object.keys(data).length),
               borderWidth: 1,
+              datalabels: {
+                color: '#000',
+                font: {
+                  size: 12,
+                },
+              },
             },
           ],
+          labels: Object.keys(data),
         };
       });
   }
@@ -158,8 +208,15 @@ export class DashboardComponent implements OnInit {
               data: Object.values(data),
               backgroundColor: this.generateRandomColors(Object.keys(data).length),
               borderWidth: 1,
+              datalabels: {
+                color: '#000',
+                font: {
+                  size: 12,
+                },
+              },
             },
           ],
+          labels: Object.keys(data),
         };
       });
   }
@@ -178,94 +235,4 @@ export class DashboardComponent implements OnInit {
   }
 
 }
-
-
-//   summaryCards: { title: string; value: string }[] = [];
-//   monthlyChartData: any = {};  // Update to hold chart data structure
-//   monthlyChartLabels: string[] = [];
-//   yearlyChartData: any = {};  // Update to hold chart data structure
-//   yearlyChartLabels: string[] = [];
-//   anonymizedData: { category: string; total: number }[] = [];
-//   displayedColumns: string[] = ['category', 'total'];
-//   chartOptions: ChartOptions = {
-//     responsive: true,
-//     maintainAspectRatio: false,
-//   };
-//   monthlyChartType: ChartType = 'pie';
-//   yearlyChartType: ChartType = 'bar';
-
-
-//   constructor(private router: Router, private dashboardService: DashboardService) {}
-
-//   ngOnInit(): void {
-//     this.loadSummaryCards();
-//     this.loadMonthlyData();
-//     this.loadYearlyData();
-//     this.loadAnonymizedData();
-//   }
-
-//   logout() {
-//     localStorage.clear();
-//     this.router.navigate(['/login']);
-//   }
-
-
-//   loadSummaryCards() {
-//     this.dashboardService.getLifetimeSummary(this.userId).subscribe((data) => {
-//       this.summaryCards = [
-//         { title: 'Total Expenses', value: `${data.totalExpenses || 0}` },
-//         { title: 'Total Income', value: `${data.totalIncome || 0}` },
-//         { title: 'Savings', value: `${data.savings || 0}` },
-//       ];
-//     });
-//   }
-
-//   loadMonthlyData() {
-//     this.dashboardService.getExpenseSummaryByCategoryForMonth(1, 12, 2024).subscribe((data) => {
-//     // Structure the monthly data properly for chart
-//     this.monthlyChartLabels = Object.keys(data);
-//     this.monthlyChartData = {
-//       datasets: [
-//         {
-//           data: Object.values(data),
-//           label: 'Monthly Expenses',
-//           backgroundColor: 'rgba(63,81,181,0.5)',
-//           borderColor: 'rgba(63,81,181,1)',
-//           borderWidth: 1,
-//         },
-//       ],
-//     };
-//   });
-//   }
-
-
-//   loadYearlyData() {
-//     this.dashboardService.getExpenseSummaryForYear(1, 2024).subscribe((data) => {
-//       // Structure the yearly data properly for chart
-//       this.yearlyChartLabels = Object.keys(data) as string[];
-//       this.yearlyChartData = {
-//         datasets: [
-//           {
-//             data: Object.values(data).map((item: any) =>
-//               (Object.values(item) as number[]).reduce((a, b) => a + b, 0)
-//             ),
-//             label: 'Yearly Expenses',
-//             backgroundColor: 'rgba(76,175,80,0.5)',
-//             borderColor: 'rgba(76,175,80,1)',
-//             borderWidth: 1,
-//           },
-//         ],
-//       };
-//     });
-//   }
-
-//   loadAnonymizedData() {
-//     this.dashboardService.getAnonymizedExpenseSummaryByCategory().subscribe((data) => {
-//       this.anonymizedData = Object.entries(data).map(([category, total]) => ({
-//         category,
-//         total: total as number,
-//       }));
-//     });
-//   }
-// }
 
