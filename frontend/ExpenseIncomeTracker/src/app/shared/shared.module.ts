@@ -9,6 +9,9 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTabsModule} from '@angular/material/tabs';
+import { NgChartsModule } from 'ng2-charts';
 
 // @NgModule({
 //   declarations: [],
@@ -31,6 +34,10 @@ import { MatSelectModule } from '@angular/material/select';
     MatOptionModule,
     MatTableModule,
     MatFormFieldModule,
+    MatToolbarModule,
+    MatTabsModule,
+    NgChartsModule,
+
   ],
   exports: [
     MatInputModule,
@@ -43,6 +50,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatOptionModule,
     MatTableModule,
     MatFormFieldModule,
+    MatToolbarModule,
+    MatTabsModule,
+    NgChartsModule
 
   ],
 })
