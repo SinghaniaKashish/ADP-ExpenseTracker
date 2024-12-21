@@ -33,6 +33,11 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                     @Param("month") int month,
                                     @Param("year") int year);
 
+    @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.user.id = :userId AND YEAR(e.timeStamp) = :year")
+    Double getTotalExpensesForYear(@Param("userId") Long userId, 
+                                   @Param("year") int year);
+
+
     @Query("SELECT e.user.id AS userId, SUM(e.amount) AS totalExpenses " +
            "FROM Expense e " +
            "WHERE MONTH(e.timeStamp) = :month AND YEAR(e.timeStamp) = :year " +

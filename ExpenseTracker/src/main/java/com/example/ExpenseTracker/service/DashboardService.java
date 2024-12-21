@@ -68,6 +68,38 @@ public class DashboardService {
         return (totalIncome != null ? totalIncome : 0) - (totalExpenses != null ? totalExpenses : 0);
     }
 
+    //custom
+    public Map<String, Object> getMonthlySummary(Long userId, int month, int year) {
+        Double totalIncome = incomeRepository.getTotalIncomeForMonth(userId, month, year);
+        Double totalExpenses = expenseRepository.getTotalExpensesForMonth(userId, month, year);
+        Double savings = (totalIncome != null ? totalIncome : 0) - (totalExpenses != null ? totalExpenses : 0);
+
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("totalIncome", totalIncome != null ? totalIncome : 0);
+        summary.put("totalExpenses", totalExpenses != null ? totalExpenses : 0);
+        summary.put("savings", savings);
+
+        return summary;
+    }
+
+    public Map<String, Object> getYearlySummary(Long userId, int year) {
+        // Get total expenses income for the year
+        Double totalExpenses = expenseRepository.getTotalExpensesForYear(userId, year);
+        Double totalIncome = incomeRepository.getTotalIncomeForYear(userId, year);
+
+
+        // Calculate yearly savings
+        Double savings = (totalIncome != null ? totalIncome : 0) - (totalExpenses != null ? totalExpenses : 0);
+
+        // Prepare the summary map
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("totalIncome", totalIncome);
+        summary.put("totalExpenses", totalExpenses != null ? totalExpenses : 0);
+        summary.put("savings", savings);
+
+        return summary;
+    }
+
     public Map<String, Double> getLifetimeSummary(Long userId) {
         Double totalIncome = incomeRepository.getLifetimeTotalIncome(userId);
         Double totalExpenses = expenseRepository.getLifetimeTotalExpenses(userId);

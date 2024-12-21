@@ -32,31 +32,20 @@
   
   .charts-section {
     display: flex;
-    flex-direction: column;
-  }
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
   
-  .chart-container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
+    .chart-card {
+      width: 45%;
+      min-width: 300px;
+    }
   
-  .anonymized-section {
-    margin-top: 20px;
-  }
-  
-  .anonymized-card {
-    padding: 16px;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
-  th {
-    text-align: left;
-  }
-  
-  .mat-tab-group {
-    margin-top: 20px;
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
   }
   

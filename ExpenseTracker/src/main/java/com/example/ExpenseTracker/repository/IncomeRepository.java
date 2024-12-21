@@ -32,6 +32,10 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
                                   @Param("month") int month,
                                   @Param("year") int year);
 
+       @Query("SELECT SUM(i.amount) FROM Income i WHERE i.user.id = :userId AND YEAR(i.timeStamp) = :year")
+       Double getTotalIncomeForYear(@Param("userId") Long userId, @Param("year") int year);
+
+
     @Query("SELECT i.user.id AS userId, SUM(i.amount) AS totalIncome " +
            "FROM Income i " +
            "WHERE MONTH(i.timeStamp) = :month AND YEAR(i.timeStamp) = :year " +

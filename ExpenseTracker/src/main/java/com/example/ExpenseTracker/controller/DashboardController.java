@@ -2,6 +2,7 @@ package com.example.ExpenseTracker.controller;
 
 import com.example.ExpenseTracker.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -56,6 +57,22 @@ public class DashboardController {
         return dashboardService.getLifetimeSummary(userId);
     }
 
+    @GetMapping("/summary/monthly")
+    public ResponseEntity<Map<String, Object>> getSummaryByMonth(
+            @RequestParam Long userId, 
+            @RequestParam int month, 
+            @RequestParam int year) {
+        Map<String, Object> summary = dashboardService.getMonthlySummary(userId, month, year);
+        return ResponseEntity.ok(summary);
+    }
+
+    @GetMapping("/summary/yearly")
+    public ResponseEntity<Map<String, Object>> getSummaryByYear(
+            @RequestParam Long userId, 
+            @RequestParam int year) {
+        Map<String, Object> summary = dashboardService.getYearlySummary(userId, year);
+        return ResponseEntity.ok(summary);
+    }
 
     // Get anonymized expense summary by category
     @GetMapping("/expenses/anonymized-summary/category")

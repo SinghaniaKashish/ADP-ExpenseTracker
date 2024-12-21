@@ -3,7 +3,123 @@
     <h2>Welcome, {{ fullName }}</h2>
     <button mat-raised-button color="warn" class="logoutbtn" (click)="logout()">Logout</button>
 </mat-card>
+
 <div class="dashboard-container mat-elevation-z4">
+  <mat-toolbar color="primary" class="toolbar">
+    <span>Expense & Income Dashboard</span>
+  </mat-toolbar>
+
+  <!-- Current Month Summary -->
+  <section class="summary-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <span>Monthly Summary ({{ selectedMonth }}/{{ selectedYear }})</span>
+        </mat-card-title>
+        <mat-card-actions>
+          <mat-form-field appearance="outline" class="dropdown">
+            <mat-label>Month</mat-label>
+            <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange()">
+              <mat-option *ngFor="let month of months" [value]="month.value">
+                {{ month.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="dropdown">
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="onMonthChange()">
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Income:</strong> {{ monthlySummary?.totalIncome }}</p>
+        <p><strong>Total Expenses:</strong> {{ monthlySummary?.totalExpenses }}</p>
+        <p><strong>Savings:</strong> {{ monthlySummary?.savings }}</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Current Year Summary -->
+  <section class="summary-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <span>Yearly Summary ({{ selectedYearForYearSummary }})</span>
+        </mat-card-title>
+        <mat-card-actions>
+          <mat-form-field appearance="outline" class="dropdown">
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="selectedYearForYearSummary" (selectionChange)="onYearChange()">
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Income:</strong> {{ yearlySummary?.totalIncome }}</p>
+        <p><strong>Total Expenses:</strong> {{ yearlySummary?.totalExpenses }}</p>
+        <p><strong>Savings:</strong> {{ yearlySummary?.savings }}</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Lifetime Summary -->
+  <section class="summary-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Lifetime Summary</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Income:</strong> {{ lifetimeSummary?.totalIncome }}</p>
+        <p><strong>Total Expenses:</strong> {{ lifetimeSummary?.totalExpenses }}</p>
+        <p><strong>Savings:</strong> {{ lifetimeSummary?.savings }}</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <div class="charts-section">
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Expenses by Category ({{ selectedMonth }}/{{ selectedYear }})</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="expenseChartData"
+            [labels]="expenseChartLabels"
+            [type]="'pie'"
+            [options]="chartOptions"
+          ></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Income by Category ({{ selectedMonth }}/{{ selectedYear }})</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="incomeChartData"
+            [labels]="incomeChartLabels"
+            [type]="'pie'"
+            [options]="chartOptions"
+          ></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+</div>
+
+
+
+<!-- <div class="dashboard-container mat-elevation-z4">
     <mat-toolbar color="primary" class="toolbar">
       <span>Expense & Income Dashboard</span>
     </mat-toolbar>
@@ -74,5 +190,5 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
+  </div> -->
   
