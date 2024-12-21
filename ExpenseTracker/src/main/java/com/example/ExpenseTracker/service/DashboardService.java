@@ -1,18 +1,13 @@
 package com.example.ExpenseTracker.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-// public class DashboardService {
-    
-// }
-import org.springframework.stereotype.Service;
-
-import com.example.ExpenseTracker.model.Expense;
-import com.example.ExpenseTracker.model.Income;
 import com.example.ExpenseTracker.repository.ExpenseRepository;
 import com.example.ExpenseTracker.repository.IncomeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DashboardService {
@@ -23,19 +18,98 @@ public class DashboardService {
     @Autowired
     private IncomeRepository incomeRepository;
 
-    public double getTotalIncome(Long userId) {
-        List<Income> incomes = incomeRepository.findByUserId(userId);
-        return incomes.stream().mapToDouble(Income::getAmount).sum();
+    public Map<String, Double> getExpenseSummaryByCategoryForMonth(Long userId, int month, int year) {
+        List<Object[]> results = expenseRepository.getExpensesByCategoryForMonth(userId, month, year);
+        Map<String, Double> summary = new HashMap<>();
+        for (Object[] result : results) {
+            summary.put((String) result[0], (Double) result[1]);
+        }
+        return summary;
     }
 
-    public double getTotalExpenses(Long userId) {
-        List<Expense> expenses = expenseRepository.findByUserId(userId);
-        return expenses.stream().mapToDouble(Expense::getAmount).sum();
+    public Map<String, Map<String, Double>> getExpenseSummaryForYear(Long userId, int year) {
+        List<Object[]> results = expenseRepository.getExpensesByCategoryForYear(userId, year);
+        Map<String, Map<String, Double>> summary = new HashMap<>();
+        for (Object[] result : results) {
+            String month = String.valueOf(result[0]);
+            String category = (String) result[1];
+            Double amount = (Double) result[2];
+            summary.putIfAbsent(month, new HashMap<>());
+            summary.get(month).put(category, amount);
+        }
+        return summary;
     }
 
-    public double getNetSavings(Long userId) {
-        return getTotalIncome(userId) - getTotalExpenses(userId);
+    public Map<String, Double> getIncomeSummaryByCategoryForMonth(Long userId, int month, int year) {
+        List<Object[]> results = incomeRepository.getIncomesByCategoryForMonth(userId, month, year);
+        Map<String, Double> summary = new HashMap<>();
+        for (Object[] result : results) {
+            summary.put((String) result[0], (Double) result[1]);
+        }
+        return summary;
     }
 
-    // Implement other methods for monthly and yearly breakdown
+    public Map<String, Map<String, Double>> getIncomeSummaryForYear(Long userId, int year) {
+        List<Object[]> results = incomeRepository.getIncomesByCategoryForYear(userId, year);
+        Map<String, Map<String, Double>> summary = new HashMap<>();
+        for (Object[] result : results) {
+            String month = String.valueOf(result[0]);
+            String category = (String) result[1];
+            Double amount = (Double) result[2];
+            summary.putIfAbsent(month, new HashMap<>());
+            summary.get(month).put(category, amount);
+        }
+        return summary;
+    }
+
+    public double getSavingsForMonth(Long userId, int month, int year) {
+        Double totalIncome = incomeRepository.getTotalIncomeForMonth(userId, month, year);
+        Double totalExpenses = expenseRepository.getTotalExpensesForMonth(userId, month, year);
+        return (totalIncome != null ? totalIncome : 0) - (totalExpenses != null ? totalExpenses : 0);
+    }
+
+    public Map<String, Double> getLifetimeSummary(Long userId) {
+        Double totalIncome = incomeRepository.getLifetimeTotalIncome(userId);
+        Double totalExpenses = expenseRepository.getLifetimeTotalExpenses(userId);
+        Double savings = (totalIncome != null ? totalIncome : 0) - (totalExpenses != null ? totalExpenses : 0);
+        Map<String, Double> summary = new HashMap<>();
+        summary.put("totalIncome", totalIncome != null ? totalIncome : 0);
+        summary.put("totalExpenses", totalExpenses != null ? totalExpenses : 0);
+        summary.put("savings", savings);
+        return summary;
+    }
+
+
+
+    // Anonymized expense summary by category
+    public Map<String, Double> getAnonymizedExpenseSummaryByCategory() {
+        List<Object[]> results = expenseRepository.getAnonymizedExpenseSummaryByCategory();
+        Map<String, Double> summary = new HashMap<>();
+        for (Object[] result : results) {
+            summary.put((String) result[0], (Double) result[1]);
+        }
+        return summary;
+    }
+
+    // Anonymized income summary by category
+    public Map<String, Double> getAnonymizedIncomeSummaryByCategory() {
+        List<Object[]> results = incomeRepository.getAnonymizedIncomeSummaryByCategory();
+        Map<String, Double> summary = new HashMap<>();
+        for (Object[] result : results) {
+            summary.put((String) result[0], (Double) result[1]);
+        }
+        return summary;
+    }
+
+    // Expense-to-income ratio for a user
+    public double getExpenseToIncomeRatio(Long userId) {
+        double totalExpenses = expenseRepository.findByUserId(userId).stream()
+                .mapToDouble(expense -> expense.getAmount())
+                .sum();
+        double totalIncomes = incomeRepository.findByUserId(userId).stream()
+                .mapToDouble(income -> income.getAmount())
+                .sum();
+
+        return totalExpenses / (totalIncomes == 0 ? 1 : totalIncomes); // Avoid division by zero
+    }
 }

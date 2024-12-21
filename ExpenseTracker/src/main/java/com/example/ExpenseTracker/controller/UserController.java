@@ -21,15 +21,6 @@ public class UserController {
         return userService.registerUser(user);
     }
 
-    // @PostMapping("/login")
-    // public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
-    //     Optional<UserDetails> user = userService.login(email, password);
-    //     if (user.isPresent()) {
-    //         return ResponseEntity.ok(user.get());
-    //     } else {
-    //         return ResponseEntity.status(401).body("Invalid email or password");
-    //     }
-    // }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {

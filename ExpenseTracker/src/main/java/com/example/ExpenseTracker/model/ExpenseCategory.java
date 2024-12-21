@@ -13,5 +13,7 @@ public class ExpenseCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name; // e.g., Housing, Food, Transportation, etc.
+    private String name;
+        private Long userId; // To link the category to a specific user
+ // e.g., Housing, Food, Transportation, etc.
 }

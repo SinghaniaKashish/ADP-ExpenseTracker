@@ -5,6 +5,7 @@ import com.example.ExpenseTracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -15,6 +16,7 @@ public class ExpenseController {
 
     @PostMapping
     public Expense addExpense(@RequestBody Expense expense) {
+            expense.setTimeStamp(LocalDateTime.now());
         return expenseService.addExpense(expense);
     }
 
@@ -27,4 +29,12 @@ public class ExpenseController {
     public void deleteExpense(@PathVariable Long id) {
         expenseService.deleteExpense(id);
     }
+
+    @GetMapping("/category/{categoryId}/user/{userId}")
+    public List<Expense> getExpensesByCategoryAndUser(
+            @PathVariable Long categoryId,
+            @PathVariable Long userId) {
+        return expenseService.getExpensesByCategoryAndUser(categoryId, userId);
+    }
+   
 }

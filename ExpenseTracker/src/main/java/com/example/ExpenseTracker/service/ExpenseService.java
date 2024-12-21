@@ -24,4 +24,8 @@ public class ExpenseService {
     public void deleteExpense(Long id) {
         expenseRepository.deleteById(id);
     }
+
+    public List<Expense> getExpensesByCategoryAndUser(Long categoryId, Long userId) {
+        return expenseRepository.findByCategoryIdAndUserId(categoryId, userId);
+    }
 }
