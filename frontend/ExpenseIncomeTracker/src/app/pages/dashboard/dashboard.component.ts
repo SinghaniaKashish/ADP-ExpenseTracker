@@ -48,6 +48,11 @@ export class DashboardComponent implements OnInit {
   yearlySummary: any = null;
   lifetimeSummary: any = null;
 
+  //all
+  userSummaries: Array<{ totalIncome: number; totalExpenses: number; savings: number }> = [];
+  selectedMonthAll: number = new Date().getMonth() + 1;
+  selectedYearAll: number = new Date().getFullYear();
+
  // Chart data
  expenseChartData: any = [];
  expenseChartLabels: string[] = [];
@@ -105,11 +110,29 @@ chartOptions: ChartOptions = {
     this.loadMonthlySummary();
     this.loadYearlySummary();
     this.loadLifetimeSummary();
+    this.loadUserSummaries();
 
 
     //chart
     this.loadExpenseChart();
     this.loadIncomeChart();
+  }
+
+  loadUserSummaries(): void {
+    this.dashboardService
+      .getSummaryByMonthForAllUsers(this.selectedMonthAll, this.selectedYearAll)
+      .subscribe((data) => {
+        this.userSummaries = data;
+      });
+  }
+  onMonthChangeAll(month: number): void {
+    this.selectedMonth = month;
+    this.loadUserSummaries();
+  }
+
+  onYearChangeAll(year: number): void {
+    this.selectedYear = year;
+    this.loadUserSummaries();
   }
 
   initializeYears(): void {
@@ -218,6 +241,8 @@ chartOptions: ChartOptions = {
   randomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+
 
 }
 

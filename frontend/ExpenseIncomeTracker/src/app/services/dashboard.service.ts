@@ -46,7 +46,13 @@ export class DashboardService {
       { params: { userId, month, year } }
     );
   }
-
+  
+  getSummaryByMonthForAllUsers(month: number, year: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/summary/monthly/all`, {
+      params: { month, year },
+    });
+  }
+  
 
 }
 

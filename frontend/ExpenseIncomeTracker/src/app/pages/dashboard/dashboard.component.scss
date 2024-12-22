@@ -48,4 +48,40 @@
       width: 100%;
     }
   }
+  .dashboard-container {
+    padding: 20px;
+  
+    .filters {
+      margin-bottom: 20px;
+  
+      label {
+        margin-right: 10px;
+      }
+  
+      select {
+        margin-right: 20px;
+        padding: 5px;
+        font-size: 14px;
+      }
+    }
+  
+    .table-container {
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+  
+        th, td {
+          padding: 10px;
+          text-align: left;
+          border: 1px solid #ddd;
+        }
+  
+        th {
+          background-color: #f4f4f4;
+          font-weight: bold;
+        }
+      }
+    }
+  }
   

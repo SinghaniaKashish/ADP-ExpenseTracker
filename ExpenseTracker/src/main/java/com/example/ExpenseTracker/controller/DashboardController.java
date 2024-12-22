@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -65,6 +66,15 @@ public class DashboardController {
         Map<String, Object> summary = dashboardService.getYearlySummary(userId, year);
         return ResponseEntity.ok(summary);
     }
+
+    @GetMapping("/summary/monthly/all")
+    public ResponseEntity<List<Map<String, Object>>> getSummaryByMonthForAllUsers(
+        @RequestParam int month,
+        @RequestParam int year) {
+    List<Map<String, Object>> allUsersSummary = dashboardService.getMonthlySummaryForAllUsers(month, year);
+    return ResponseEntity.ok(allUsersSummary);
+}
+
 
     
     // Get expense-to-income ratio for a user

@@ -2,9 +2,11 @@ package com.example.ExpenseTracker.service;
 
 import com.example.ExpenseTracker.repository.ExpenseRepository;
 import com.example.ExpenseTracker.repository.IncomeRepository;
+import com.example.ExpenseTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,9 @@ public class DashboardService {
 
     @Autowired
     private ExpenseRepository expenseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private IncomeRepository incomeRepository;
@@ -110,6 +115,25 @@ public class DashboardService {
         summary.put("savings", savings);
         return summary;
     }
+
+    public List<Map<String, Object>> getMonthlySummaryForAllUsers(int month, int year) {
+    List<Map<String, Object>> allUsersSummary = new ArrayList<>();
+
+    // Fetch all user IDs from the database (you can use your UserRepository)
+    List<Long> userIds = userRepository.findAllUserIds();
+
+    // Loop through each user and get their summary
+    for (Long userId : userIds) {
+        Map<String, Object> summary = getMonthlySummary(userId, month, year);
+        if (summary != null) {
+            summary.put("userId", userId); // Add userId to the summary
+            allUsersSummary.add(summary);
+        }
+    }
+
+    return allUsersSummary;
+}
+
 
     // Expense-to-income ratio for a user
     public double getExpenseToIncomeRatio(Long userId) {

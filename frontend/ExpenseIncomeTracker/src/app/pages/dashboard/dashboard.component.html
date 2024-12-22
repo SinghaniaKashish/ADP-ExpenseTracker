@@ -114,4 +114,44 @@
       </mat-card-content>
     </mat-card>
   </div>
+
+  <div class="dashboard-container">
+    <!-- Filters -->
+    <div class="filters">
+      <label for="month">Month:</label>
+      <select id="month" [(ngModel)]="selectedMonthAll" (change)="onMonthChangeAll(selectedMonthAll)">
+        <option *ngFor="let m of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" [value]="m">
+          {{ m }}
+        </option>
+      </select>
+  
+      <label for="year">Year:</label>
+      <select id="year" [(ngModel)]="selectedYearAll" (change)="onYearChangeAll(selectedYearAll)">
+        <option *ngFor="let y of [2020, 2021, 2022, 2023, 2024]" [value]="y">{{ y }}</option>
+      </select>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Total Income</th>
+            <th>Total Expenses</th>
+            <th>Savings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let summary of userSummaries">
+            <td>{{ summary.totalIncome  }}</td>
+            <td>{{ summary.totalExpenses  }}</td>
+            <td>{{ summary.savings  }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+
+
 </div>
