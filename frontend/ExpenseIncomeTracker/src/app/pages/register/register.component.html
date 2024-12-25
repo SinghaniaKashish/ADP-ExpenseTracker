@@ -1,4 +1,4 @@
-<mat-card>
+<!-- <mat-card>
   <h2>Register</h2>
   <form>
     <mat-form-field appearance="fill">
@@ -17,5 +17,54 @@
   </form>
   <p>
     Don't have an account? <a routerLink="/login">Login</a>
+  </p>
+</mat-card> -->
+
+<mat-card class="auth-card">
+  <h2 class="auth-title">Register</h2>
+  <form class="auth-form" #registerForm="ngForm">
+    <mat-form-field class="auth-input" appearance="fill">
+      <mat-label>Full Name</mat-label>
+      <input
+        matInput
+        [(ngModel)]="user.fullName"
+        name="fullName"
+        required
+        #fullName="ngModel"
+      />
+    </mat-form-field>
+    <mat-form-field class="auth-input" appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        [(ngModel)]="user.email"
+        name="email"
+        required
+        #email="ngModel"
+      />
+    </mat-form-field>
+    <mat-form-field class="auth-input" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        [(ngModel)]="user.password"
+        name="password"
+        required
+        #password="ngModel"
+      />
+    </mat-form-field>
+    <button
+      mat-raised-button
+      class="auth-button"
+      [disabled]="!registerForm.valid"
+      (click)="register()"
+    >
+      Register
+    </button>
+  </form>
+  <p class="auth-footer">
+    Already have an account? <a routerLink="/login">Login</a>
   </p>
 </mat-card>

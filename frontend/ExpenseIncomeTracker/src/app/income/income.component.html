@@ -1,9 +1,8 @@
-<app-navbar></app-navbar>
+<!-- <app-navbar></app-navbar>
 
 <div class="container">
   <h2>Manage Income</h2>
 
-  <!-- Add Income Form -->
   <form (ngSubmit)="addIncome()" [formGroup]="incomeForm">
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
@@ -27,7 +26,6 @@
     <button mat-raised-button color="primary" type="submit">Add Income</button>
   </form>
 
-  <!-- Add Category Section -->
   <h3>Add Income Category</h3>
   <form (ngSubmit)="addCategory()" [formGroup]="categoryForm">
     <mat-form-field appearance="outline">
@@ -37,7 +35,6 @@
     <button mat-raised-button color="primary" type="submit">Add Category</button>
   </form>
 
-  <!-- Category Filter -->
   <div>
     <mat-form-field appearance="outline">
       <mat-label>Filter by Category</mat-label>
@@ -50,7 +47,6 @@
     </mat-form-field>
   </div>
 
-  <!-- Income Table -->
   <table mat-table [dataSource]="filteredIncome" class="mat-elevation-z8">
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
@@ -79,4 +75,94 @@
     <tr mat-header-row *matHeaderRowDef="['description', 'amount', 'category', 'actions']"></tr>
     <tr mat-row *matRowDef="let row; columns: ['description', 'amount', 'category', 'actions'];"></tr>
   </table>
+</div> -->
+<app-navbar></app-navbar>
+
+<div class="container">
+  <h2>Manage Income</h2>
+
+  <!-- Add Income Form -->
+  <form (ngSubmit)="addIncome()" [formGroup]="incomeForm" class="income-form">
+    <div class="form-row">
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" placeholder="Enter amount" formControlName="amount" min="0" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Description</mat-label>
+        <input matInput placeholder="Enter description" formControlName="description" />
+      </mat-form-field>
+
+      <button mat-raised-button color="accent" [disabled]="!incomeForm.valid || incomeForm.value.amount <= 0 || !incomeForm.value.categoryId">
+        <mat-icon>add_circle</mat-icon> Add Income
+      </button>
+    </div>
+  </form>
+
+  <!-- Add Category Section -->
+  <h2>Add Income Category</h2>
+  <form (ngSubmit)="addCategory()" [formGroup]="categoryForm" class="category-form">
+    <div class="form-row">
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Category Name</mat-label>
+        <input matInput placeholder="Enter category name" formControlName="name" required/>
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!categoryForm.valid">
+        <mat-icon>category</mat-icon> Add Category
+      </button>
+    </div>
+  </form>
+
+  <!-- Category Filter -->
+  <div class="category-filter">
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>Filter by Category</mat-label>
+      <mat-select [(ngModel)]="selectedCategoryId" (selectionChange)="filterIncomeByCategory()">
+        <mat-option [value]="null">All Categories</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Income Table -->
+  <mat-table [dataSource]="filteredIncome" class="income-table ">
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let element">{{ element.category.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="deleteIncome(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['amount', 'category', 'description', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['amount', 'category', 'description', 'actions'];"></tr>
+  </mat-table>
 </div>

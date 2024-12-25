@@ -17,6 +17,7 @@ Chart.register(ChartDataLabels);
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
+
 export class DashboardComponent implements OnInit {
 
   fullName: string | null = localStorage.getItem('fullName');
@@ -48,7 +49,7 @@ export class DashboardComponent implements OnInit {
   yearlySummary: any = null;
   lifetimeSummary: any = null;
 
-  //all
+  //all summary
   userSummaries: Array<{ totalIncome: number; totalExpenses: number; savings: number }> = [];
   selectedMonthAll: number = new Date().getMonth() + 1;
   selectedYearAll: number = new Date().getFullYear();
@@ -103,10 +104,9 @@ chartOptions: ChartOptions = {
   constructor(private dashboardService: DashboardService, private router: Router) {}
 
   ngOnInit(): void {
-    // Initialize years dropdown
     this.initializeYears();
 
-    // Load default summaries
+    // default summaries
     this.loadMonthlySummary();
     this.loadYearlySummary();
     this.loadLifetimeSummary();
@@ -145,7 +145,7 @@ chartOptions: ChartOptions = {
   // Load summaries
   loadMonthlySummary(): void {
     this.dashboardService
-      .getSummaryByMonth(1, this.selectedMonth, this.selectedYear)
+      .getSummaryByMonth(this.userId, this.selectedMonth, this.selectedYear)
       .subscribe((data) => {
         this.monthlySummary = data;
       });
@@ -153,14 +153,14 @@ chartOptions: ChartOptions = {
 
   loadYearlySummary(): void {
     this.dashboardService
-      .getSummaryByYear(1, this.selectedYearForYearSummary)
+      .getSummaryByYear(this.userId, this.selectedYearForYearSummary)
       .subscribe((data) => {
         this.yearlySummary = data;
       });
   }
 
   loadLifetimeSummary(): void {
-    this.dashboardService.getLifetimeSummary(1).subscribe((data) => {
+    this.dashboardService.getLifetimeSummary(this.userId).subscribe((data) => {
       this.lifetimeSummary = data;
     });
   }
@@ -182,7 +182,7 @@ chartOptions: ChartOptions = {
   // Load expense summary data for the current month
   loadExpenseChart(): void {
     this.dashboardService
-      .getExpenseSummaryByCategoryForMonth(1, this.selectedMonth, this.selectedYear)
+      .getExpenseSummaryByCategoryForMonth(this.userId, this.selectedMonth, this.selectedYear)
       .subscribe((data) => {
         this.expenseChartLabels = Object.keys(data);
         this.expenseChartData = {
@@ -207,7 +207,7 @@ chartOptions: ChartOptions = {
   // Load income summary data for the current month
   loadIncomeChart(): void {
     this.dashboardService
-      .getIncomeSummaryByCategoryForMonth(1, this.selectedMonth, this.selectedYear)
+      .getIncomeSummaryByCategoryForMonth(this.userId, this.selectedMonth, this.selectedYear)
       .subscribe((data) => {
         this.incomeChartLabels = Object.keys(data);
         this.incomeChartData = {

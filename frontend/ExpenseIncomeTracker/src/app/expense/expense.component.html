@@ -4,42 +4,50 @@
   <h2>Manage Expenses</h2>
 
   <!-- Add Expense Form -->
-  <form (ngSubmit)="addExpense()" [formGroup]="expenseForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Description</mat-label>
-      <input matInput placeholder="Enter description" formControlName="description" />
-    </mat-form-field>
+  <form (ngSubmit)="addExpense()" [formGroup]="expenseForm" class="expense-form">
+    <div class="form-row">
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" placeholder="Enter amount" formControlName="amount" min="0" />
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Amount</mat-label>
-      <input matInput type="number" placeholder="Enter amount" formControlName="amount" />
-    </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="categoryId">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Category</mat-label>
-      <mat-select formControlName="categoryId">
-        <mat-option *ngFor="let category of categories" [value]="category.id">
-          {{ category.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Description</mat-label>
+        <input matInput placeholder="Enter description" formControlName="description" />
+      </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit">Add Expense</button>
+      <button mat-raised-button color="accent" [disabled]="!expenseForm.valid || expenseForm.value.amount <= 0 || !expenseForm.value.categoryId">
+        <mat-icon>add_circle</mat-icon> Add Expense
+      </button>
+    </div>
   </form>
 
   <!-- Add Category Section -->
-  <h3>Add Expense Category</h3>
-  <form (ngSubmit)="addCategory()" [formGroup]="categoryForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Category Name</mat-label>
-      <input matInput placeholder="Enter category name" formControlName="name" />
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Add Category</button>
+  <h2>Add Expense Category</h2>
+  <form (ngSubmit)="addCategory()" [formGroup]="categoryForm" class="category-form">
+    <div class="form-row">
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Category Name</mat-label>
+        <input matInput placeholder="Enter category name" formControlName="name" required />
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="!categoryForm.valid">
+        <mat-icon>category</mat-icon> Add Category
+      </button>
+    </div>
   </form>
 
   <!-- Category Filter -->
-  <div>
-    <mat-form-field appearance="outline">
+  <div class="category-filter">
+    <mat-form-field appearance="fill" class="filter-field">
       <mat-label>Filter by Category</mat-label>
       <mat-select [(ngModel)]="selectedCategoryId" (selectionChange)="filterExpensesByCategory()">
         <mat-option [value]="null">All Categories</mat-option>
@@ -51,12 +59,7 @@
   </div>
 
   <!-- Expense Table -->
-  <table mat-table [dataSource]="filteredExpenses" class="mat-elevation-z8">
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-    </ng-container>
-
+  <mat-table [dataSource]="filteredExpenses" class="expense-table">
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef>Amount</th>
       <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
@@ -65,6 +68,11 @@
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef>Category</th>
       <td mat-cell *matCellDef="let element">{{ element.category.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
@@ -76,7 +84,8 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['description', 'amount', 'category', 'actions']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['description', 'amount', 'category', 'actions'];"></tr>
-  </table>
+    <tr mat-header-row *matHeaderRowDef="['amount', 'category', 'description', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['amount', 'category', 'description', 'actions'];"></tr>
+  </mat-table>
 </div>
+

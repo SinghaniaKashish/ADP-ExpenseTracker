@@ -14,6 +14,6 @@ public class IncomeCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name; // e.g., Salary, Business, etc.
-    private Long userId; // To link the category to a specific user
+    private Long userId;
 
 }

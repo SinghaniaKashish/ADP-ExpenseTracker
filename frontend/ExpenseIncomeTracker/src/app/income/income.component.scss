@@ -1,0 +1,133 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    color: #FF9F1C;
+    font-weight: 600;
+  }
+  
+  h3 {
+    color: #FF9F1C;
+    margin-top: 20px;
+  }
+  
+  .income-form, .category-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 220px; 
+  }
+  
+  button[mat-raised-button] {
+    background-color: #FF9F1C;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 25px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[mat-raised-button]:hover {
+    background-color: #FFBF69;
+  }
+  
+  button[mat-raised-button]:disabled {
+    background-color: #E0E0E0;
+  }
+  
+  button[mat-icon-button] {
+    background-color: #FF9F1C;
+    color: white;
+    border-radius: 50%;
+    padding: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[mat-icon-button]:hover {
+    background-color: #FFBF69;
+  }
+  
+  .income-table {
+    overflow-x: auto;
+  }
+  
+  .income-table th {
+    background-color: #FF9F1C;
+    color: white;
+  }
+  
+  .income-table td {
+    background-color: #FFFFFF;
+    color: #333333;
+  }
+  
+  .income-table .mat-header-row, .income-table .mat-row {
+    height: 50px;
+  }
+  
+  .category-filter {
+    margin-top: 20px;
+  }
+  
+  .mat-select {
+    width: 200px;
+    background-color: #FFFFFF;
+  }
+  
+  .mat-header-cell, .mat-cell {
+    padding: 16px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .form-row .mat-form-field {
+      max-width: 100%; /* Full width on smaller screens */
+    }
+  
+    .income-table {
+      width: 100%;
+    }
+  
+    .mat-header-cell, .mat-cell {
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .income-form, .category-form {
+      gap: 12px; /* Reduce gap on smaller screens */
+    }
+  
+    .income-table th, .income-table td {
+      font-size: 14px; /* Smaller text for compact screens */
+    }
+  
+    .category-filter .mat-form-field {
+      width: 100%;
+    }
+  }
+  

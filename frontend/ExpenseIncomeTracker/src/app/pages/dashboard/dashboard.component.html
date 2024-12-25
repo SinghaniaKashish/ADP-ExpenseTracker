@@ -1,4 +1,4 @@
-<app-navbar> </app-navbar>
+<!-- <app-navbar> </app-navbar>
 <mat-card>
     <h2>Welcome, {{ fullName }}</h2>
     <button mat-raised-button color="warn" class="logoutbtn" (click)="logout()">Logout</button>
@@ -9,7 +9,6 @@
     <span>Expense & Income Dashboard</span>
   </mat-toolbar>
 
-  <!-- Current Month Summary -->
   <section class="summary-section">
     <mat-card>
       <mat-card-header>
@@ -41,7 +40,6 @@
     </mat-card>
   </section>
 
-  <!-- Current Year Summary -->
   <section class="summary-section">
     <mat-card>
       <mat-card-header>
@@ -65,7 +63,6 @@
     </mat-card>
   </section>
 
-  <!-- Lifetime Summary -->
   <section class="summary-section">
     <mat-card>
       <mat-card-header>
@@ -116,7 +113,6 @@
   </div>
 
   <div class="dashboard-container">
-    <!-- Filters -->
     <div class="filters">
       <label for="month">Month:</label>
       <select id="month" [(ngModel)]="selectedMonthAll" (change)="onMonthChangeAll(selectedMonthAll)">
@@ -131,7 +127,6 @@
       </select>
     </div>
   
-    <!-- Table -->
     <div class="table-container">
       <table>
         <thead>
@@ -152,6 +147,155 @@
     </div>
   </div>
   
+</div> -->
 
+<app-navbar></app-navbar>
 
+<!-- Welcome Section -->
+<mat-card class="welcome-card">
+  <h2>Welcome, {{ fullName }}</h2>
+  <button
+    mat-raised-button
+    color="warn"
+    class="logout-btn"
+    (click)="logout()"
+  >
+    <mat-icon>logout</mat-icon> Logout
+  </button>
+</mat-card>
+
+<div class="dashboard-container mat-elevation-z4">
+  <!-- Charts Section -->
+  <section class="charts-section">
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>pie_chart</mat-icon> Expenses by Category ({{ selectedMonth }}/{{ selectedYear }})
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="expenseChartData"
+            [labels]="expenseChartLabels"
+            [type]="'pie'"
+            [options]="chartOptions"
+          ></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>pie_chart</mat-icon> Income by Category ({{ selectedMonth }}/{{ selectedYear }})
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="incomeChartData"
+            [labels]="incomeChartLabels"
+            [type]="'pie'"
+            [options]="chartOptions"
+          ></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Monthly Summary Section -->
+  <section class="summary-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>calendar_month</mat-icon> Monthly Summary ({{ selectedMonth }}/{{ selectedYear }})
+        </mat-card-title>
+        <mat-card-actions>
+          <mat-form-field appearance="outline" class="dropdown">
+            <mat-label>Month</mat-label>
+            <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange()">
+              <mat-option *ngFor="let month of months" [value]="month.value">
+                {{ month.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="dropdown">
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="onMonthChange()">
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Income:</strong> {{ monthlySummary?.totalIncome }}</p>
+        <p><strong>Total Expenses:</strong> {{ monthlySummary?.totalExpenses }}</p>
+        <p><strong>Savings:</strong> {{ monthlySummary?.savings }}</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Yearly Summary Section -->
+  <section class="summary-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>date_range</mat-icon> Yearly Summary ({{ selectedYearForYearSummary }})
+        </mat-card-title>
+        <mat-card-actions>
+          <mat-form-field appearance="outline" class="dropdown">
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="selectedYearForYearSummary" (selectionChange)="onYearChange()">
+              <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-actions>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Income:</strong> {{ yearlySummary?.totalIncome }}</p>
+        <p><strong>Total Expenses:</strong> {{ yearlySummary?.totalExpenses }}</p>
+        <p><strong>Savings:</strong> {{ yearlySummary?.savings }}</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Lifetime Summary Section -->
+  <section class="summary-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>all_inclusive</mat-icon> Lifetime Summary
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Income:</strong> {{ lifetimeSummary?.totalIncome }}</p>
+        <p><strong>Total Expenses:</strong> {{ lifetimeSummary?.totalExpenses }}</p>
+        <p><strong>Savings:</strong> {{ lifetimeSummary?.savings }}</p>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Table Section -->
+  <section class="table-section">
+    <h3 class="anoData"><mat-icon>table_chart</mat-icon> Anonymous Data</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Total Income</th>
+          <th>Total Expenses</th>
+          <th>Savings</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let summary of userSummaries">
+          <td>{{ summary.totalIncome }}</td>
+          <td>{{ summary.totalExpenses }}</td>
+          <td>{{ summary.savings }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </div>

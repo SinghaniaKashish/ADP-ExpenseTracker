@@ -1,87 +1,87 @@
-.logoutbtn{
-    width:200px;
-    display: flex;
-    align-self: flex-end;
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #FFFFFF;
 }
 
-.dashboard-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .toolbar {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .summary-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .summary-card {
-    flex: 1 1 calc(33.333% - 20px);
-    min-width: 200px;
-    text-align: center;
-    background: linear-gradient(to right, #4caf50, #81c784);
-    color: white;
-  }
-  
+.welcome-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 16px;
+  color: #000; 
+}
+
+.logout-btn {
+  background-color: #FF9F1C;
+}
+
+.logout-btn:hover {
+  background-color: #FFBF69;
+}
+
+.charts-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.chart-card {
+  flex: 1;
+  min-width: 300px;
+}
+
+.chart-container {
+  height: 300px; /* Set a fixed height for charts */
+}
+
+mat-card-content{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+mat-card-title, .anoData{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
   .charts-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-    padding: 20px;
-  
-    .chart-card {
-      width: 45%;
-      min-width: 300px;
-    }
-  
-    .chart-container {
-      position: relative;
-      height: 300px;
-      width: 100%;
-    }
+    flex-direction: column;
   }
-  .dashboard-container {
-    padding: 20px;
-  
-    .filters {
-      margin-bottom: 20px;
-  
-      label {
-        margin-right: 10px;
-      }
-  
-      select {
-        margin-right: 20px;
-        padding: 5px;
-        font-size: 14px;
-      }
-    }
-  
-    .table-container {
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-  
-        th, td {
-          padding: 10px;
-          text-align: left;
-          border: 1px solid #ddd;
-        }
-  
-        th {
-          background-color: #f4f4f4;
-          font-weight: bold;
-        }
-      }
-    }
-  }
-  
+}
+
+.summary-section {
+  margin: 10px 0;
+}
+
+.table-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-section th,
+.table-section td {
+  border: 1px solid #2EC4B6;
+  padding: 8px;
+  text-align: center;
+}
+
+.table-section th {
+  background-color: #2EC4B6;
+  color: #FFFFFF;
+}
+
+.table-section td {
+  background-color: #F9F9F9;
+}
+
+
